@@ -11,24 +11,44 @@ namespace Domain.Tests
     [TestFixture]
     public class IngredientTester
     {
-        [Test]
-        public void CanCreateIngredient()
-        {
-            var ingredient = new Ingredient();
-        }
+        private readonly string ValidIngredientPublicName = "ValidPublicName";
+
 
         [Test]
         public void IngredientHasId()
         {
-            var ingredient = new Ingredient();
+            var ingredient = CreateIngredient(this.ValidIngredientPublicName);
             int id = ingredient.Id;
         }
 
         [Test]
-        public void IngredientHasPublicName()
+        public void GivenNameWhenCreatingIngredientThenNameWasSet()
         {
-            var ingredient = new Ingredient();
-            string publicName = ingredient.PublicName;
+            string publicName = "IngredientName";
+            var ingredient = CreateIngredient(publicName);
+            Assert.AreEqual(ingredient.PublicName, publicName);
+        }
+
+
+        [Test]
+        public void GivenNullNameWhenCreatingIngredientThenArgumentNullException()
+        {
+            TestDelegate td = () => CreateIngredient(null);
+            var exception = Assert.Throws<ArgumentNullException>(td);
+            Assert.AreEqual(exception.ParamName, "publicName");
+        }
+
+        [Test]
+        public void GivenEmptyStringWhenCreatingIngredientThenArgumentException()
+        {
+            TestDelegate td = () => CreateIngredient(string.Empty);
+            var exception = Assert.Throws<ArgumentException>(td);
+            Assert.AreEqual(exception.ParamName, "publicName");
+        }
+
+        private static Ingredient CreateIngredient(string publicName)
+        {
+            return new Ingredient(publicName);
         }
     }
 }

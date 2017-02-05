@@ -2,12 +2,10 @@
 {
     using System.Collections.Generic;
 
-    using Domain.Tests;
-
     public class Recipe
     {
         IEnumerable<Ingredient> ingredients = new List<Ingredient>();
-        public int Id { get; }
+        public int Id { get; private set; }
 
         public string PublicName { get; set; }
 
